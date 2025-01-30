@@ -2,8 +2,7 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for dependabot-cli.
-GH_REPO="https://github.com/Habluu/dependabot-cli"
+GH_REPO="https://github.com/dependabot/cli.git"
 TOOL_NAME="dependabot-cli"
 TOOL_TEST="dependabot-cli --help"
 
@@ -31,8 +30,6 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if dependabot-cli has other means of determining installable versions.
 	list_github_tags
 }
 
