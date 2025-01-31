@@ -45,6 +45,22 @@ download_release() {
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
+get_cpu() {
+	local machine_hardware_name
+	machine_hardware_name=${ASDF_DEPENDABOT_CLI_OVERWRITE_ARCH:-"$(uname -m)"}
+
+	local cpu_type
+	case "$machine_hardware_name" in
+	  'x86_64'| 'x86-64' | 'x64' | 'amd64')  cpu_type="amd64" ;;
+		'i386') cpu_type="386" ;;
+    'aarch64' | 'arm64') cpu_type="arm64" ;;
+    'armv7l' | 'armv8l') cpu_type="arm" ;;
+    *) fail "Unsupported machine architecture"
+  esac
+
+}
+
+
 install_version() {
 	local install_type="$1"
 	local version="$2"
