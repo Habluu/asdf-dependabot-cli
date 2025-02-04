@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-GH_REPO="https://github.com/dependabot/cli.git"
+GH_REPO="https://github.com/dependabot/cli"
 TOOL_NAME="dependabot-cli"
 TOOL_TEST="dependabot-cli --help"
 
@@ -34,14 +34,14 @@ list_all_versions() {
 }
 
 download_release() {
-	local version filename url
+	local version filename url os_type cpu_type
 	version="$1"
 	filename="$2"
+	os_type=$(get_os)
+	cpu_type=$(get_cpu)
+	url="$GH_REPO/releases/download/v${version}/dependabot-v${version}-${os_type}-${cpu_type}.tar.gz"
 
-	# TODO: Adapt the release URL convention for dependabot-cli
-	url="$GH_REPO/archive/v${version}.tar.gz"
-
-	echo "* Downloading $TOOL_NAME release $version..."
+	echo "* Downloading $TOOL_NAME release $version in $filename"
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
@@ -57,9 +57,12 @@ get_cpu() {
     'armv7l' | 'armv8l') cpu_type="arm" ;;
     *) fail "Unsupported machine architecture"
   esac
-
+	echo "$cpu_type"
 }
 
+get_os() {
+	uname | tr '[:upper:]' '[:lower:]'
+}
 
 install_version() {
 	local install_type="$1"
