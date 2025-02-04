@@ -3,8 +3,8 @@
 set -euo pipefail
 
 GH_REPO="https://github.com/dependabot/cli"
-TOOL_NAME="dependabot-cli"
-TOOL_TEST="dependabot-cli --help"
+TOOL_NAME="dependabot"
+TOOL_TEST="dependabot --help"
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
@@ -51,12 +51,12 @@ get_cpu() {
 
 	local cpu_type
 	case "$machine_hardware_name" in
-	  'x86_64'| 'x86-64' | 'x64' | 'amd64')  cpu_type="amd64" ;;
-		'i386') cpu_type="386" ;;
-    'aarch64' | 'arm64') cpu_type="arm64" ;;
-    'armv7l' | 'armv8l') cpu_type="arm" ;;
-    *) fail "Unsupported machine architecture"
-  esac
+	'x86_64' | 'x86-64' | 'x64' | 'amd64') cpu_type="amd64" ;;
+	'i386') cpu_type="386" ;;
+	'aarch64' | 'arm64') cpu_type="arm64" ;;
+	'armv7l' | 'armv8l') cpu_type="arm" ;;
+	*) fail "Unsupported machine architecture" ;;
+	esac
 	echo "$cpu_type"
 }
 
@@ -77,7 +77,6 @@ install_version() {
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-		# TODO: Assert dependabot-cli executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
