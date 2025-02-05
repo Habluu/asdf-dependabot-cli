@@ -41,7 +41,7 @@ download_release() {
 	cpu_type=$(get_cpu)
 	url="$GH_REPO/releases/download/v${version}/dependabot-v${version}-${os_type}-${cpu_type}.tar.gz"
 
-	echo "* Downloading $TOOL_NAME release $version in $filename"
+	printf "* Downloading $TOOL_NAME release $version in $filename"
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
@@ -57,7 +57,7 @@ get_cpu() {
 	'armv7l' | 'armv8l') cpu_type="arm" ;;
 	*) fail "Unsupported machine architecture" ;;
 	esac
-	echo "$cpu_type"
+	printf "$cpu_type"
 }
 
 get_os() {
@@ -78,7 +78,7 @@ install_version() {
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
 		local tool_cmd
-		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+		tool_cmd="$(printf "$TOOL_TEST" | cut -d' ' -f1)"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
