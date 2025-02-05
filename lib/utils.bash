@@ -41,7 +41,7 @@ download_release() {
 	cpu_type=$(get_cpu)
 	url="$GH_REPO/releases/download/v${version}/dependabot-v${version}-${os_type}-${cpu_type}.tar.gz"
 
-	printf "* Downloading $TOOL_NAME release $version in $filename"
+	echo "* Downloading $TOOL_NAME release $version in $filename"
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
@@ -57,7 +57,7 @@ get_cpu() {
 	'armv7l' | 'armv8l') cpu_type="arm" ;;
 	*) fail "Unsupported machine architecture" ;;
 	esac
-	printf "$cpu_type"
+	echo "$cpu_type"
 }
 
 get_os() {
